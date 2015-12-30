@@ -1,0 +1,122 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.2.2                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant/cooler";
+    object      thermophysicalProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+thermoType
+{
+    type            heRhoThermo;
+    mixture         pureMixture;
+    transport       polynomial; //const
+    thermo          hPolynomial; //hConst; // hConst;
+    equationOfState icoPolynomial; //rhoConst; //incompressiblePerfectGas;
+                                   //rhoConst; 
+                                   //perfectGas; 
+                                   // perfectFluid
+    specie          specie;
+    energy          sensibleEnthalpy;
+}
+
+// Desativa o termo da pressao na equacao
+// da energia
+dpdt            no; 
+
+// Cooler - water
+// 
+// Water is not a perfectFluid. So, among the thermo types available,
+// the only one matching water is a polynomial transport, hPolynomial thermo 
+// and icoPolynomial equationOfState
+//
+// Data from Monica: H2O_NIST
+// Values for 590 < T < 619 (K)
+// Data for viscosity (mu), kappa, Cp and rho were fitted for polynomials
+// of 6th order.
+
+mixture
+{
+    specie
+    {
+        // Water mol weight [g/mol]
+        nMoles          1;
+        molWeight       18.02; 
+    }
+
+    transport
+    {
+      // *** const
+      //      mu              959e-6;//1.8e-05;
+      //      Pr              6.62; //0.7;
+
+      // *** polynomial
+      //
+      // Calculates mu and kappa as function of temperature 
+      // from the polynomials:
+      //
+      // mu [Pa.s]
+      // mu(T) = 0.477756 + -0.00337294*(x) + 7.80884e-06*(x)^2 + -2.59645e-09*(x)^3 + -1.64495e-11*(x)^4 + 2.49614e-14*(x)^5 + -1.10764e-17*(x)^6
+      //
+      // kappa [W/m/K]
+      // kappa(T) = 1456.92 + -10.2864*(x) + 0.0238197*(x)^2 + -7.80437e-06*(x)^3 + -5.02923e-08*(x)^4 + 7.60632e-11*(x)^5 + -3.36662e-14*(x)^6
+      //
+      // Data fitted with fityk based on data H2O_NIST.txt from Mónica Martínez
+
+      // muCoeffs<8> (0.477756 -0.00337294 7.80884e-06 -2.59645e-09 -1.64495e-11 2.49614e-14 -1.10764e-17 0);
+      // kappaCoeffs<8> (1456.92 -10.2864 0.0238197 -7.80437e-06 -5.02923e-08 7.60632e-11 -3.36662e-14 0);
+      muCoeffs<8> (959e-6 0 0 0 0 0 0 0);
+      kappaCoeffs<8> (0.1 0 0 0 0 0 0 0);
+    }
+
+    thermodynamics
+    {
+      // *** hPolynomial
+      //
+      // Cp Coeffs from Monica data
+      //
+      // Cp = [J/kg/K]
+      // Cp(T) = -7.56975e+08 + 5.24432e+06*(x) + -11530.9*(x)^2 + 1.22828*(x)^3 + 0.0308639*(x)^4 + -4.34995e-05*(x)^5 + 1.88346e-08*(x)^6
+	Hf  0;
+	Sf  0;
+	CpCoeffs<8> (-7.56975e08 5.24432e06 -11530.9 1.22828 0.0308639 -4.34995e-05 1.88346e-08 0);
+      //      CpCoeffs<8> (4181 0 0 0 0 0 0 0);
+
+      // *** hConst
+      //Cp              4181; //4.18;
+      //Hf              0; //3.34e+5;
+    }
+
+    equationOfState
+    {
+      // *** icoPolynomial
+      //
+      // rho = [Kg/m^3]
+      //
+      // rho(T) = 4.02745e+06 + -27520.6*(x) + 57.8951*(x)^2 + 0.00610405*(x)^3 + -0.000187407*(x)^4 + 2.52756e-07*(x)^5 + -1.08057e-10*(x)^6
+      //
+	rhoCoeffs<8> (4.02745e06 -27520.6 57.8951 0.00610405 -0.000187407 2.52756e-07 -1.08057e-10 0);
+      //      rhoCoeffs<8> (997 0 0 0 0 0 0 0);
+
+      // *** Perfect Fluid
+      //      R    4182;
+      //      rho0 997;
+
+      // *** rhoConst
+      //rho      997;
+      //pRef     1e5;
+
+    }
+}
+
+
+// ************************************************************************* //

@@ -1,0 +1,123 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.2.2                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      topoSetDict;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+actions
+(
+    // cladding
+    {
+        name    cladding;
+        type    cellSet;
+        action  new;
+        source  boxToCell;
+        sourceInfo
+        {
+	  // Mesh blockMesh
+	  //	  box (-0.0026 -0.0026 0)(0.0026 0 0.722);
+	  box (-0.003 -0.003 0)(0.003 0.003 720);
+
+        }
+    }
+    {
+       name cladding;
+       type cellSet;
+       action delete;
+       source boxToCell;
+       sourceInfo
+     	{
+     	  //	  box (-0.0016 -0.0016 0)(0.0016 0 0.722);
+	  box (-0.001 -0.001 0)(0.001 0.001 720);
+     	}
+    }
+    {
+        name    cladding;
+        type    cellZoneSet;
+        action  new;
+        source  setToCellZone;
+        sourceInfo
+        {
+            set cladding;
+        }
+    }
+
+   // fuel
+    {
+      name   fuel;
+      type   cellSet;
+      action new;
+      source boxToCell;
+      sourceInfo
+	{
+	  //	  box (-0.0006 -0.0006 0)(0.0006 0 0.722);
+	  box (-0.001 -0.001 0)(0.001 0.001 720);
+	}
+    }
+    {
+      name   fuel;
+      type   cellZoneSet;
+      action new;
+      source setToCellZone;
+      sourceInfo
+	{
+	  set fuel;
+	}
+    }
+
+    // coolant are all other cells
+    {
+        name    coolant;
+        type    cellZoneSet;
+        action  clear;
+    }
+    {
+         name    coolant;
+         type    cellSet;
+         action  add;
+         source  cellToCell;
+         sourceInfo
+         {
+             set cladding;
+         }
+    }
+    {
+         name    coolant;
+         type    cellSet;
+         action  add;
+         source  cellToCell;
+         sourceInfo
+         {
+             set fuel;
+         }
+    }
+    {
+        name    coolant;
+        type    cellSet;
+        action  invert;
+    }
+    {
+        name    coolant;
+        type    cellZoneSet;
+        action  new;
+        source  setToCellZone;
+        sourceInfo
+        {
+            set coolant;
+        }
+    }
+
+);
+
+// ************************************************************************* //

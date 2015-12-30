@@ -1,0 +1,60 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.4.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0/cladding";
+    object      T;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [ 0 0 0 1 0 0 0 ];
+
+internalField   uniform 600;
+
+boundaryField
+{
+    extremos
+    {
+        type            zeroGradient;
+        value           uniform 0;
+    }
+    parede
+    {
+        type            zeroGradient;
+        value           uniform 0;
+    }
+    cladding_to_coolant
+    {
+        type            zeroGradient;
+        value           uniform 0;
+    }
+    cladding_to_fuel
+    {
+        type            compressible::turbulentTemperatureCoupledBaffleMixed;
+        value           uniform 600;
+        Tnbr            T;
+        kappa           solidThermo;
+        kappaName       none;
+        thicknessLayers ( 0.1 );
+        kappaLayers     ( 10 );
+    }
+    cladding_to_cooler
+    {
+        type            compressible::turbulentTemperatureCoupledBaffleMixed;
+        Tnbr            T;
+        kappa           solidThermo;
+        kappaName       none;
+        value           uniform 562;
+    }
+}
+
+
+// ************************************************************************* //

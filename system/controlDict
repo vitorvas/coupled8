@@ -1,0 +1,132 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.2.2                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     thesisCoupledFoam;
+
+startFrom       latestTime; //startTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         1.0;
+
+deltaT          0.1;
+
+writeControl    timeStep;
+
+writeInterval   1;
+
+purgeWrite      0;
+
+writeFormat     ascii;
+
+writePrecision  7;
+
+writeCompression uncompressed;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable true;
+
+
+// InfoSwithes
+// {
+//   allowSystemOperations 1;
+// }
+
+DebugSwitches
+{
+//   outletInlet         1;
+//   polyMesh            0;
+//   polyMeshGeometry    0;
+//   polyMeshInfo        1;
+//   pressureInletOutletVelocity 1;
+//   regionSplit         0;
+//   steadyState         1;
+//   fluidThermo         1;
+}
+
+// functions
+// {
+//     inlet
+//     {
+//         type            faceSource;
+//         functionObjectLibs ("libfieldFunctionObjects.so");
+
+//         enabled         yes;
+//         outputControl   outputTime;
+
+//         region          cooler;
+
+//         // Output to log&file (yes) or to file only
+//         log             yes;
+
+//         // Output field values as well
+//         valueOutput     no;
+
+//         // Type of source: patch/faceZone/sampledSurface
+//         source          patch;
+
+//         // if patch or faceZone: name of patch or faceZone
+//         sourceName      inlet;
+
+//         // Operation: areaAverage/sum/weightedAverage ...
+//         operation       areaIntegrate;
+
+//         fields
+//         (
+//             U
+//         );
+//     }
+
+//     outlet
+//     {
+//         type            faceSource;
+//         functionObjectLibs ("libfieldFunctionObjects.so");
+
+//         enabled         yes;
+//         outputControl   outputTime;
+
+//         region          cooler;
+
+//         // Output to log&file (yes) or to file only
+//         log             yes;
+
+//         // Output field values as well
+//         valueOutput     no;
+
+//         // Type of source: patch/faceZone/sampledSurface
+//         source          patch;
+
+//         // if patch or faceZone: name of patch or faceZone
+//         sourceName      outlet;
+
+//         // Operation: areaAverage/sum/weightedAverage ...
+//         operation       areaIntegrate;
+
+//         fields
+//         (
+//             U
+//         );
+//     }
+
+}
+
+// ************************************************************************* //

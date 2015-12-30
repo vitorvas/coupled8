@@ -1,0 +1,284 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.2.2                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      changeDictionaryDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dictionaryReplacement
+{
+    boundary
+    {
+        parede
+        {
+            type            fixedValue;
+	    value           uniform 0;
+        }
+    }
+
+    U
+    {
+        internalField   uniform (0 0 0.01);
+
+        boundaryField
+        {
+            ".*"
+            {
+                type            fixedValue;
+                value           uniform (0 0 0);
+            }
+
+	    parede
+            {
+                type            fixedValue;
+                value           uniform (0 0 0);
+            }
+
+	    inlet
+	    {
+	      type  fixedValue;
+	      value uniform (0 0 0.01);
+	    }
+
+	    // Testing this BC. 
+	    // Flux into the domain from the outlet is not expected
+	    // Other option: inletOutlet
+	    outlet
+	    {
+	      type  zeroGradient; // pressureInletOutletVelocity;
+	                          // value uniform (0 0 0.01);
+	    }
+        }
+	
+    }
+
+    T
+    {
+        internalField   uniform 562;
+
+        boundaryField
+        {
+            ".*"
+            {
+	        type            zeroGradient;
+		value           uniform 562;
+            }
+
+	    parede
+            {
+                type            fixedValue;
+                value uniform 0;
+	    //	  type          zeroGradient;
+            }
+
+            "cooler_to_.*"
+            {
+                type            compressible::turbulentTemperatureCoupledBaffleMixed;
+                Tnbr            T; 
+                kappa           fluidThermo;
+                kappaName       none;
+//                thicknessLayers (0);
+//                kappaLayers     (0);
+                value           uniform 562;
+            }
+	    
+	    inlet
+	    {
+	      type  fixedValue;
+	      value uniform 547;
+	    }
+
+	    outlet
+	    {
+	      // No Boussinesq
+	      type zeroGradient;
+	    }
+        }
+    }
+
+    epsilon
+    {
+        internalField   uniform 0.03;
+
+        boundaryField
+        {
+            ".*"
+            {
+                type            compressible::epsilonWallFunction;
+                value           uniform 0.03;
+            }
+
+	    parede
+            {
+              type		  zeroGradient;
+            }
+
+	    inlet
+	    {
+	      type  fixedValue;
+	      value uniform 0.03; //1.0E-4;
+	    }
+
+	    outlet
+	    {
+	      type zeroGradient;
+	    }
+        }
+    }
+
+    k
+    {
+        internalField   uniform 0.001;
+
+        boundaryField
+        {
+            ".*"
+            {
+                type            compressible::kqRWallFunction;
+                value           uniform 0.001;
+            }
+
+	    parede
+            {
+		  type		  zeroGradient;
+            }
+
+	    inlet
+	    {
+	      type  fixedValue;
+	      value uniform 0.001;
+	    }
+
+	    outlet
+	    {
+	      type  zeroGradient;
+	    }
+        }
+    }
+
+    mut
+    {
+        internalField   uniform 0;
+
+        boundaryField
+        {
+            ".*"
+            {
+                type            mutkWallFunction;
+		Cmu             0.09;
+		kappa           0.41;
+		E               9.8;
+                value           uniform 0;
+            }
+
+	    parede
+            {
+                type            fixedValue;
+		value           uniform 0;
+
+            }
+
+	    inlet
+	    {
+	      type  calculated;
+	      value uniform 0;
+	    }
+
+	    outlet
+	    {
+		type  calculated;
+		value uniform 0;
+	    }
+        }
+    }
+    
+    alphat
+    {
+        internalField   uniform 0;
+
+        boundaryField
+        {
+            ".*"
+            {
+                type            compressible::alphatWallFunction;
+		Prt             0.85;
+                value           uniform 0;
+            }
+
+	    parede
+            {
+                type            fixedValue;
+		value           uniform 0;
+
+            }
+
+	    inlet
+	    {
+	      type  calculated;
+	    }
+
+	    outlet
+	    {
+		type  calculated;
+	    }
+        }
+    }
+
+    p_rgh
+    {
+      internalField   uniform 1750000;
+
+        boundaryField
+        {
+            ".*"
+            {
+	      type            zeroGradient; // fixedFluxPressure;
+	                                    // value  uniform 1750000; 
+            }
+
+	    parede
+            {
+		type zeroGradient;
+            }
+
+	    inlet
+	    {
+	      // OpenFOAM general explanation suggestes zeroGradient
+	      // type  fixedValue;
+	      // value uniform 0;
+	      type zeroGradient;
+	    }
+
+	    outlet
+	    {
+	      type  fixedValue;
+	      value uniform 1750000;
+	    }
+        }
+
+    }
+
+    p
+    {
+      internalField   uniform 1750000; 
+
+        boundaryField
+        {
+	    parede
+            {
+		type 		zeroGradient;
+            }
+        }
+    }
+}
+
+// ************************************************************************* //

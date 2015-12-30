@@ -1,0 +1,69 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.2.2                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      changeDictionaryDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dictionaryReplacement
+{
+    boundary
+    {
+        parede
+        {
+            type            fixedValue;
+            value           uniform 0;
+        }
+	
+	extremos
+        {
+            type            fixedValue;
+            value           uniform 0;
+        }
+
+    }
+
+    T
+    {
+        internalField   uniform 600;
+
+        boundaryField
+        {
+            ".*"
+            {
+                type            zeroGradient;
+	    }
+            
+	    cladding_to_cooler
+            {
+                type            compressible::turbulentTemperatureCoupledBaffleMixed;
+                Tnbr            T;
+                kappa           solidThermo;
+                kappaName       none;
+		value           uniform 562;
+	    }
+
+	    cladding_to_fuel
+            {
+                type            compressible::turbulentTemperatureCoupledBaffleMixed;
+                Tnbr            T;
+                kappa           solidThermo;
+                kappaName       none;
+		thicknessLayers (0.1);
+		kappaLayers     (10);
+                value           uniform 600;
+            }
+        }
+    }
+}
+
+// ************************************************************************* //

@@ -1,0 +1,119 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.2.2                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      thermophysicalProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+thermoType
+{
+    type            heSolidThermo;
+    mixture         pureMixture;
+    transport       polynomial; //exponential //constIso;
+    thermo          hPolynomial; //hExponential; //hConst;
+    equationOfState rhoConst;
+    specie          specie;
+    energy          sensibleEnthalpy;
+}
+
+// Defining the thermophysical properties for UO2
+// Uranium dioxide
+//
+
+mixture
+{
+    specie
+    {
+      nMoles      1;      // 1 mol of UO2 has 270.03 g
+      molWeight   270.03; // [g/mol]
+    }
+
+    transport
+    {
+      // *** polynomial
+      // 
+      // Thermal condutivity polynomial coefficients in [W/m/K]
+      //
+      // kappa coefficients: data from Monica was plotted and 
+      // fitted by a 4th order polynomial:
+      // kUO2(T) = 13.8319 + -0.0212695*(x) + 1.74975e-05*(x)^2 
+      //           + -7.40942e-09*(x)^3 + 1.2855e-12*(x)^4
+      //           
+      // a0 = 13.8319
+      // a1 = -0.0212695
+      // a2 = 1.74975e-05
+      // a3 = -7.40942e-09
+      // a4 = 1.2855e-12
+      kappaCoeffs<8> (13.83185 -0.0212695 1.74975e-05 -7.40942e-09 1.2855e-12 0 0 0);   
+
+      // *** constIso
+      //  kappa   80;
+	
+      // *** exponential
+      // kappa0    80;
+      // n0         1;
+      // Tref      900;
+    }
+
+    thermodynamics
+    {
+      // *** hConst
+      //Hf      0;
+      //Cp      309;
+      
+      // *** hPolynomial
+      // 
+      // Cp Coefficients: data from Monica was plotted and 
+      // fitted by a 4th order polynomial:
+      // CpUO2(T) = 156.943 + 0.415649*(x) - 0.000404255*(x)^2 
+      //            + 1.60888e-07*(x)^3 - 1.7833e-11*(x)^4
+      // a0 = 156.9433
+      // a0 = 0.415649
+      // a0 = -4.042554E-4
+      // a0 = 1.608879E-7
+      // a0 = -1.783298E-11
+      
+      CpCoeffs<8> (156.9433 0.415649 -4.042554E-4 1.608879E-7 -1.783298E-11 0 0 0);  
+      Sf 0; // Standard entropy [J/kg K]
+      Hf 0; // Heat of formation [J/Kg]
+
+      // *** Exponencial
+      // Hf      0;
+      // C0      1;
+      // n0      1;
+      // Tref    900;
+
+    }
+
+    equationOfState
+    {
+      // UO2 density: 10.97g/cm3
+      // OpenFOAM expects kg/m3
+      //rho     1.097e-3;
+      rho     10.5156e3; // --- Dados Monica
+
+      // *** This is an example on how to use coded values
+      // in a variable. This is an option when
+      // using tables to get values (Vitor - 19/03/2014)
+      // ***************************************
+      // rho #codeStream
+      // {
+      // 	code
+      // 	 #{
+      // 	    os << "8000" ;
+      // 	 #};
+      // };
+      // ***************************************
+    }
+}
+
+// ************************************************************************* //

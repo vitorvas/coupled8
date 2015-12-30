@@ -1,0 +1,67 @@
+MILONGA_DEBUG
+
+MESH NAME boapequena FILE_PATH ../boa.msh DIMENSIONS 3
+
+MILONGA_PROBLEM FORMULATION diffusion SCHEME volumes DIMENSIONS 3 GROUPS 1
+
+n = 5904 # Mesh size
+
+VECTOR vec_T SIZE n
+VECTOR vec_d SIZE n
+
+FUNCTION test(x,y,z) MESH boapequena CELLS VECTOR vec_P
+
+vec_T(i) = 0
+vec_d(i) = 0
+vec_P(i) = 4000+i/1000
+
+MATERIAL cladding D 1.9 nuSigmaF 0.135 SigmaA 0.290 eSigmaF 0.135
+MATERIAL coolant D 1.9 nuSigmaF 0.135 SigmaA 0.290 eSigmaF 0.135
+MATERIAL fuel D 1.5 nuSigmaF 0.0140 SigmaA 0.010 eSigmaF 0.140
+
+#MATERIAL cladding D 1.9 nuSigmaF 0.135*D(x,y,z) SigmaA 0.290 eSigmaF 0.135
+#PRINT "\# D cladding: " %.8f D(x,y,z)
+#MATERIAL coolant D 1.9 nuSigmaF 0.135*D(x,y,z) SigmaA 0.290 eSigmaF 0.135
+#PRINT "\# D coolant: " %.8f D(x,y,z)
+#MATERIAL fuel D 1.5 nuSigmaF 0.015*D(x,y,z) SigmaA 0.010 eSigmaF 0.140
+#PRINT "\# D fuel: " %.8f D(x,y,z)
+
+PHYSICAL_ENTITY MATERIAL fuel
+PHYSICAL_ENTITY MATERIAL cladding
+PHYSICAL_ENTITY MATERIAL coolant
+
+PHYSICAL_ENTITY NAME parede BC mirror
+PHYSICAL_ENTITY NAME extremos BC mirror
+PHYSICAL_ENTITY NAME inlet BC mirror
+PHYSICAL_ENTITY NAME outlet BC mirror
+
+power = 4000
+
+MILONGA_STEP
+
+#kanalytical = nuSigmaF(x,y,z)/(SigmaA(x,y,z)+D(x,y,z)*(pi/n)^2)
+PRINT TEXT "\# keff= " keff
+
+VECTOR out SIZE cells
+
+PRINT "\# cells: " %f cells
+
+#PRINT_FUNCTION pow
+#PRINT_VECTOR vec_T
+
+#g(x,y,z) := test(x,y,z)
+g(x,y,z) := pow(x,y,z)
+
+MESH_FILL_VECTOR MESH boapequena CELLS VECTOR out FUNCTION g
+
+#PRINT_VECTOR out
+#PRINT "out(1): " %.7f out(1)
+#PRINT "out(970): " %.7f out(970)
+#PRINT "out(971): " %.7f out(971)
+
+#PRINT_FUNCTION test
+
+#PRINT TEXT "\# analytical= " kanalytical
+#MESH_POST VECTOR 
+MESH_POST FILE_PATH coef.vtk pow phi1 g
+
