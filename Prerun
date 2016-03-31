@@ -6,17 +6,17 @@ cd ${0%/*} || exit 1    # run from this directory
 . $WM_PROJECT_DIR/bin/tools/RunFunctions
 
 #runApplication blockMesh
-gmshToFoam boa.msh
+gmshToFoam semitriga.msh
 #runApplication topoSet
 runApplication splitMeshRegions -cellZones -overwrite
 
 # remove fluid fields from solid regions (important for post-processing)
-for i in fuel cladding
+for i in fuel cladding cladding2
 do
    rm -f 0*/$i/{mut,alphat,epsilon,k,U,p_rgh}
 done
 
-for i in coolant cladding fuel
+for i in coolant cladding cladding2 fuel
 do
    changeDictionary -region $i > log.changeDictionary.$i 2>&1
 done

@@ -1,0 +1,59 @@
+MILONGA_DEBUG
+
+MESH NAME boa FILE_PATH ../semitriga.msh
+
+MILONGA_PROBLEM FORMULATION diffusion SCHEME volumes DIMENSIONS 3 GROUPS 1
+
+PRINT "\# Number of cells: " %.0f cells
+
+VECTOR vec_T SIZE cells
+VECTOR vec_d SIZE cells
+
+# Modificado para gerar numeros em ordem
+# ao invés da potência. Por isso o vetor
+# vec_P foi definido de outra forma
+#VECTOR vec_P SIZE cells
+FUNCTION test(x,y,z) MESH boa CELLS VECTOR vec_P
+
+power = 80 
+
+end_time = infinite
+
+MATERIAL cladding D 1.9 nuSigmaF 0.135 SigmaA 0.290 eSigmaF 0.135
+MATERIAL coolant D 1.9 nuSigmaF 0.135 SigmaA 0.290 eSigmaF 0.135
+MATERIAL fuel D 1.5 nuSigmaF 0.0140 SigmaA 0.010 eSigmaF 0.140
+
+PHYSICAL_ENTITY NAME parede BC mirror
+PHYSICAL_ENTITY NAME extremos BC vacuum
+PHYSICAL_ENTITY NAME inlet BC vacuum
+PHYSICAL_ENTITY NAME outlet BC vacuum
+
+WRITE SHM_OBJECT potencias vec_P
+WRITE SHM_OBJECT temperaturas vec_T
+WRITE SHM_OBJECT densidades vec_d
+
+#static_steps = infinite
+
+SEM semsent POST
+
+MILONGA_STEP
+
+vec_P(i) = i-1
+
+g(x,y,z) := test(x,y,z)
+#g(x,y,z) := pow(x,y,z)*power
+
+MESH_FILL_VECTOR MESH boa CELLS VECTOR vec_P FUNCTION g
+
+WRITE SHM_OBJECT potencias vec_P
+
+SEM semreceived WAIT
+
+READ SHM_OBJECT densidades vec_d
+READ SHM_OBJECT temperaturas vec_T
+
+MESH_POST FILE_PATH coupled8.vtk pow g
+
+
+
+

@@ -6,13 +6,13 @@ cd ${0%/*} || exit 1    # run from this directory
 
 cleanCase
 rm -rf VTK
-#rm -rf constant/cellToRegion constant/polyMesh/sets
+rm -rf constant/cellToRegion constant/polyMesh/sets
 #rm -rf 0/cooler
-#rm -f 0/cellToRegion
-#rm -rf constant/fuel/polyMesh
-#rm -rf constant/gap/polyMesh
-#rm -rf constant/claddin/polyMesh
-#rm -rf constant/cooler/polyMesh
+rm -f 0/cellToRegion
+rm -rf constant/fuel/polyMesh
+rm -rf constant/cladding/polyMesh
+rm -rf constant/cladding2/polyMesh
+rm -rf constant/cooler/polyMesh
 rm -rf postProcessing
 
 # ----------------------------------------------------------------- end-of-file
