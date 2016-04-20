@@ -1,8 +1,8 @@
 MILONGA_DEBUG
 
-MESH NAME boa FILE_PATH ../boa.msh
+MESH NAME boa FILE_PATH ../boa3dtheler.msh
 
-MILONGA_PROBLEM FORMULATION diffusion SCHEME volumes DIMENSIONS 3 GROUPS 1
+MILONGA_PROBLEM FORMULATION diffusion SCHEME volumes DIMENSIONS 3 GROUPS 2
 
 PRINT "\# Number of cells: " %.0f cells
 
@@ -15,17 +15,46 @@ VECTOR vec_d SIZE cells
 #VECTOR vec_P SIZE cells
 FUNCTION test(x,y,z) MESH boa CELLS VECTOR vec_P
 
-power = 80 
-
 end_time = infinite
 
-MATERIAL cladding D 1.9 nuSigmaF 0.135 SigmaA 0.290 eSigmaF 0.135
-MATERIAL coolant D 1.9 nuSigmaF 0.135 SigmaA 0.290 eSigmaF 0.135
-MATERIAL fuel D 1.5 nuSigmaF 0.0140 SigmaA 0.010 eSigmaF 0.140
+MATERIAL fuel {
+D1           1.110700e+00
+SigmaT1      6.976520e-01
+nuSigmaF1    3.668170e-03
+SigmaS1.1    6.659240e-01
+SigmaS1.2    2.721750e-02
+D2           3.003750e-01
+SigmaT2      1.999550e+00
+nuSigmaF2    7.997020e-02
+SigmaS2.1    1.962140e-04
+SigmaS2.2    1.945410e+00
+}
 
-PHYSICAL_ENTITY MATERIAL fuel
-PHYSICAL_ENTITY MATERIAL cladding
-PHYSICAL_ENTITY MATERIAL coolant
+MATERIAL cladding {
+D1           3.079790e+00
+SigmaT1      1.688990e-01
+nuSigmaF1    0.000000e+00
+SigmaS1.1    1.682460e-01
+SigmaS1.2    2.968450e-04
+D2           3.527690e+00
+SigmaT2      9.708470e-02
+nuSigmaF2    0.000000e+00
+SigmaS2.1    6.637090e-05
+SigmaS2.2    8.688550e-02
+}
+
+MATERIAL coolant {
+D1           1.356290e+00
+SigmaT1      9.447850e-01
+nuSigmaF1    0.000000e+00
+SigmaS1.1    8.871470e-01
+SigmaS1.2    5.716970e-02
+D2           1.606680e-01
+SigmaT2      3.109970e+00
+nuSigmaF2    0.000000e+00
+SigmaS2.1    2.434950e-04
+SigmaS2.2    3.092010e+00
+}
 
 PHYSICAL_ENTITY NAME parede BC mirror
 PHYSICAL_ENTITY NAME extremos BC mirror

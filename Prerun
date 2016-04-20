@@ -6,7 +6,7 @@ cd ${0%/*} || exit 1    # run from this directory
 . $WM_PROJECT_DIR/bin/tools/RunFunctions
 
 #runApplication blockMesh
-gmshToFoam boa.msh
+gmshToFoam boa3dtheler.msh
 #runApplication topoSet
 runApplication splitMeshRegions -cellZones -overwrite
 
