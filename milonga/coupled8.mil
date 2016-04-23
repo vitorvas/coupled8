@@ -71,7 +71,7 @@ SEM semsent POST
 
 MILONGA_STEP
 
-vec_P(i) = i-1
+vec_P(i) = 80+(i/3100)
 g(x,y,z) := test(x,y,z)
 
 #g(x,y,z) := pow(x,y,z)*power

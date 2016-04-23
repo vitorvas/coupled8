@@ -27,7 +27,7 @@ dictionaryReplacement
 
     U
     {
-        internalField   uniform (0 0 0.01);
+        internalField   uniform (0 0 -0.01);
 
         boundaryField
         {
@@ -46,7 +46,7 @@ dictionaryReplacement
 	    inlet
 	    {
 	      type  fixedValue;
-	      value uniform (0 0 0.01);
+	      value uniform (0 0 -0.01);
 	    }
 
 	    // Testing this BC. 
@@ -63,14 +63,14 @@ dictionaryReplacement
 
     T
     {
-        internalField   uniform 562;
+        internalField   uniform 300;
 
         boundaryField
         {
             ".*"
             {
 	        type            zeroGradient;
-		value           uniform 562;
+		value           uniform 300;
             }
 
 	    parede
@@ -88,13 +88,13 @@ dictionaryReplacement
                 kappaName       none;
 //                thicknessLayers (0);
 //                kappaLayers     (0);
-                value           uniform 562;
+                value           uniform 300;
             }
 	    
 	    inlet
 	    {
 	      type  fixedValue;
-	      value uniform 547;
+	      value uniform 300;
 	    }
 
 	    outlet

@@ -34,7 +34,7 @@ dictionaryReplacement
 
     T
     {
-        internalField   uniform 600;
+        internalField   uniform 350;
 
         boundaryField
         {
@@ -60,7 +60,7 @@ dictionaryReplacement
                 kappaName       none;
 		thicknessLayers (0.1);
 		kappaLayers     (10);
-                value           uniform 600;
+                value           uniform 350;
             }
         }
     }

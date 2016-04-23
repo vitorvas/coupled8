@@ -18,7 +18,7 @@ FoamFile
 regions
 (
     fluid       (coolant)
-    solid       (cladding cladding2 fuel)
+    solid       (cladding fuel)
 );
 
 // ************************************************************************* //
