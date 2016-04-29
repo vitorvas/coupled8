@@ -1,21 +1,36 @@
 MILONGA_DEBUG
 
+# Set transient time to infinite, so milonga will
+# wait for OpenFOAM until it ends.
+end_time = infinite
+
+# Make dt = 1. This does not affect milonga calculations
+# since it solves a steady-state problem.
+# Set for making time-steps named files.
+dt = 1
+
 MESH NAME boa FILE_PATH ../boa3dtheler.msh
 
 MILONGA_PROBLEM FORMULATION diffusion SCHEME volumes DIMENSIONS 3 GROUPS 2
 
 PRINT "\# Number of cells: " %.0f cells
 
-VECTOR vec_T SIZE cells
 VECTOR vec_d SIZE cells
 
-# Modificado para gerar numeros em ordem
-# ao invés da potência. Por isso o vetor
-# vec_P foi definido de outra forma
-#VECTOR vec_P SIZE cells
-FUNCTION test(x,y,z) MESH boa CELLS VECTOR vec_P
+FUNCTION T(x,y,z) MESH boa CELLS VECTOR vec_T
+FUNCTION Q(x,y,z) MESH boa CELLS VECTOR vec_Q
 
-end_time = infinite
+# O vetor de temperaturas é zero na criação
+vec_T(i) = 0
+vec_Q(i) = 0
+
+# Teste de interpolacao para o D_1
+FUNCTION d_1(x) DATA {
+300 1.1402e+00
+400 1.1409e+00
+500 1.1411e+00
+600 1.1428e+00
+}
 
 MATERIAL fuel {
 D1           1.110700e+00
@@ -61,7 +76,7 @@ PHYSICAL_ENTITY NAME extremos BC mirror
 PHYSICAL_ENTITY NAME inlet BC mirror
 PHYSICAL_ENTITY NAME outlet BC mirror
 
-WRITE SHM_OBJECT potencias vec_P
+WRITE SHM_OBJECT potencias vec_Q
 WRITE SHM_OBJECT temperaturas vec_T
 WRITE SHM_OBJECT densidades vec_d
 
@@ -71,14 +86,11 @@ SEM semsent POST
 
 MILONGA_STEP
 
-vec_P(i) = 80+(i/3100)
-g(x,y,z) := test(x,y,z)
+g(x,y,z) := pow(x,y,z)
 
-#g(x,y,z) := pow(x,y,z)*power
+MESH_FILL_VECTOR MESH boa CELLS VECTOR vec_Q FUNCTION g
 
-MESH_FILL_VECTOR MESH boa CELLS VECTOR vec_P FUNCTION g
-
-WRITE SHM_OBJECT potencias vec_P
+WRITE SHM_OBJECT potencias vec_Q
 
 SEM semreceived WAIT
 
