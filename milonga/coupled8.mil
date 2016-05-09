@@ -20,9 +20,9 @@ VECTOR vec_d SIZE cells
 FUNCTION T(x,y,z) MESH boa CELLS VECTOR vec_T
 FUNCTION Q(x,y,z) MESH boa CELLS VECTOR vec_Q
 
-# O vetor de temperaturas é zero na criação
-vec_T(i) = 0
-vec_Q(i) = 0
+# O vetor de temperaturas é 273 na criação
+#vec_T(i) = 273
+#vec_Q(i) = 0
 
 # Teste de interpolacao para o D_1
 FUNCTION d_1(x) DATA {
@@ -33,14 +33,17 @@ FUNCTION d_1(x) DATA {
 }
 
 MATERIAL fuel {
-D1           1.110700e+00
+#D1           1.110700e+00
+D1	     d_1(T(x,y,z))
 SigmaT1      6.976520e-01
 nuSigmaF1    3.668170e-03
+eSigmaF1     1
 SigmaS1.1    6.659240e-01
 SigmaS1.2    2.721750e-02
 D2           3.003750e-01
 SigmaT2      1.999550e+00
 nuSigmaF2    7.997020e-02
+eSigmaF2     1
 SigmaS2.1    1.962140e-04
 SigmaS2.2    1.945410e+00
 }
@@ -72,7 +75,7 @@ SigmaS2.2    3.092010e+00
 }
 
 PHYSICAL_ENTITY NAME parede BC mirror
-PHYSICAL_ENTITY NAME extremos BC mirror
+PHYSICAL_ENTITY NAME extremos BC vacuum #null
 PHYSICAL_ENTITY NAME inlet BC mirror
 PHYSICAL_ENTITY NAME outlet BC mirror
 
@@ -82,13 +85,23 @@ WRITE SHM_OBJECT densidades vec_d
 
 #static_steps = infinite
 
+#PRINT_VECTOR vec_T
+#PRINT_FUNCTION T
+
 SEM semsent POST
+
+power = 80
 
 MILONGA_STEP
 
-g(x,y,z) := pow(x,y,z)
+#mypow(x,y,z) := phi1(x,y,z)*100
+mypow(x,y,z) := pow(x,y,z)*power
 
-MESH_FILL_VECTOR MESH boa CELLS VECTOR vec_Q FUNCTION g
+#PRINT_FUNCTION mypow
+
+MESH_FILL_VECTOR MESH boa CELLS VECTOR vec_Q FUNCTION mypow
+
+PRINT_VECTOR vec_Q
 
 WRITE SHM_OBJECT potencias vec_Q
 
@@ -97,7 +110,7 @@ SEM semreceived WAIT
 READ SHM_OBJECT densidades vec_d
 READ SHM_OBJECT temperaturas vec_T
 
-MESH_POST FILE_PATH coupled8.vtk pow g
+MESH_POST FILE_PATH coupled8_vacuum.vtk pow phi1 #mypow
 
 
 
