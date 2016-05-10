@@ -20,8 +20,9 @@ dictionaryReplacement
     {
         parede
         {
-            type            fixedValue;
-	    value           uniform 0;
+	    type          symmetry;
+//            type            fixedValue;
+//	    value           uniform 0;
         }
     }
 
@@ -39,8 +40,9 @@ dictionaryReplacement
 
 	    parede
             {
-                type            fixedValue;
-                value           uniform (0 0 0);
+		type symmetry;
+//                type            fixedValue;
+//                value           uniform (0 0 0);
             }
 
 	    inlet
@@ -75,8 +77,9 @@ dictionaryReplacement
 
 	    parede
             {
-                type            fixedValue;
-                value uniform 0;
+		type symmetry;
+//                type            fixedValue;
+//                value uniform 0;
 	    //	  type          zeroGradient;
             }
 
@@ -119,7 +122,8 @@ dictionaryReplacement
 
 	    parede
             {
-              type		  zeroGradient;
+              type		  symmetry;
+//	      type		  zeroGradient;
             }
 
 	    inlet
@@ -149,7 +153,8 @@ dictionaryReplacement
 
 	    parede
             {
-		  type		  zeroGradient;
+		type		  symmetry;
+//		  type		  zeroGradient;
             }
 
 	    inlet
@@ -182,8 +187,9 @@ dictionaryReplacement
 
 	    parede
             {
-                type            fixedValue;
-		value           uniform 0;
+		type            symmetry;
+//              type            fixedValue;
+//		value           uniform 0;
 
             }
 
@@ -216,8 +222,9 @@ dictionaryReplacement
 
 	    parede
             {
-                type            fixedValue;
-		value           uniform 0;
+		type symmetry;
+                // type            fixedValue;
+		// value           uniform 0;
 
             }
 
@@ -247,7 +254,8 @@ dictionaryReplacement
 
 	    parede
             {
-		type zeroGradient;
+		type symmetry;
+//		type zeroGradient;
             }
 
 	    inlet
@@ -275,7 +283,8 @@ dictionaryReplacement
         {
 	    parede
             {
-		type 		zeroGradient;
+		type 		symmetry;
+//		type 		zeroGradient;
             }
         }
     }

@@ -20,8 +20,9 @@ dictionaryReplacement
     {
         parede
         {
-            type            fixedValue;
-            value           uniform 0;
+	    type            symmetry;
+            // type            fixedValue;
+            // value           uniform 0;
         }
 
        extremos
@@ -41,6 +42,11 @@ dictionaryReplacement
             {
 	        type            zeroGradient; 
             }
+
+	    parede
+	    {
+		type            symmetry;
+	    }
 
 	    //            "fuel_to_.*"
 	    fuel_to_cladding
@@ -66,6 +72,12 @@ dictionaryReplacement
             {
 	        type            calculated; 
             }
+
+	    parede
+	    {
+		type            symmetry;
+	    }
+
         }
     }
 

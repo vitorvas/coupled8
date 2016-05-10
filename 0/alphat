@@ -23,8 +23,8 @@ boundaryField
 {
     parede
     {
-        type            wall;
-	value		uniform 0;
+        type            symmetry; //wall
+//	value		uniform 0;
     }
     extremos
     {

@@ -90,7 +90,7 @@ WRITE SHM_OBJECT densidades vec_d
 
 SEM semsent POST
 
-power = 80
+power = 800
 
 MILONGA_STEP
 

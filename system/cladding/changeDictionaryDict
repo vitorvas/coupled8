@@ -20,8 +20,9 @@ dictionaryReplacement
     {
         parede
         {
-            type            fixedValue;
-            value           uniform 0;
+	    type            symmetry;
+            // type            fixedValue;
+            // value           uniform 0;
         }
 	
 	extremos
@@ -43,6 +44,11 @@ dictionaryReplacement
                 type            zeroGradient;
 	    }
             
+	    parede
+	    {
+		type            symmetry;
+	    }
+	    
 	    cladding_to_cooler
             {
                 type            compressible::turbulentTemperatureCoupledBaffleMixed;
