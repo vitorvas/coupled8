@@ -1,0 +1,197 @@
+### Funcoes de interpolacao
+
+### Coeficientes de difusão
+### B1_DIFFCOEFF do Serpent
+
+FUNCTION d_1_fuel(x) DATA {
+300 1.1115e+00
+400 1.1115e+00
+500 1.1118e+00
+600 1.1122e+00
+}
+
+FUNCTION d_2_fuel(x) DATA {
+300 3.0207e-01
+400 3.0482e-01
+500 3.0900e-01
+600 3.1412e-01
+}
+
+FUNCTION d_1_cladding(x) DATA {
+300 3.0964e+00
+400 3.0965e+00
+500 3.0953e+00
+600 3.0954e+00
+}
+
+FUNCTION d_2_cladding(x) DATA {
+300 3.5284e+00
+400 3.5185e+00
+500 3.5243e+00
+600 3.5300e+00
+}
+
+FUNCTION d_1_coolant(x) DATA {
+300 1.3429e+00
+400 1.3428e+00
+500 1.3430e+00
+600 1.3437e+00
+}
+
+FUNCTION d_2_coolant(x) DATA {
+300 1.6026e-01
+400 1.6049e-01
+500 1.6083e-01
+600 1.6134e-01
+}
+
+### Absorbtion cross-sections
+### B1_ABS do Serpent
+
+FUNCTION SigmaA_1_fuel(x) DATA {
+300 0.0045095
+400 0.0045842
+500 0.0046468
+600 0.0047044
+}
+
+FUNCTION SigmaA_2_fuel(x) DATA {
+300 5.4165e-02
+400 5.3395e-02
+500 5.2304e-02
+600 5.1018e-02
+}
+
+FUNCTION SigmaA_1_cladding(x) DATA {
+300 3.8009e-04
+400 3.8040e-04
+500 3.8029e-04
+600 3.8056e-04
+}
+
+FUNCTION SigmaA_2_cladding(x) DATA {
+300 1.0128e-02
+400 1.0042e-02
+500 9.9223e-03
+600 9.7735e-03
+}
+
+FUNCTION SigmaA_1_coolant(x) DATA {
+300 4.8061e-04
+400 4.8070e-04
+500 4.8061e-04
+600 4.8086e-04
+}
+
+FUNCTION SigmaA_2_coolant(x) DATA {
+300 1.7747e-02
+400 1.7727e-02
+500 1.7687e-02
+600 1.7629e-02
+}
+
+### Fission neutron production cross-sections
+### B1_NSF do Serpent (o mesmo que B1_NUBAR * B1_FISS)
+
+FUNCTION SigmanuF_1_fuel(x) DATA {
+300 0.003673
+400 0.003677
+500 0.003682
+600 0.003689
+}
+
+FUNCTION SigmanuF_2_fuel(x) DATA {
+300 0.080479
+400 0.079068
+500 0.077092
+600 0.074778
+}
+
+### Scattering cross-sections
+### B1_S0 do Serpent
+### primeira linha: fuel300 1(s1.1), 3(s1.2), 5(s2.1), 7(s2.2) - pares são os erros
+### segunda linha: cladding300... E assim segue.
+
+FUNCTION SigmaS1.1_fuel(x) DATA {
+300 0.66565
+400 0.66593
+500 0.66623
+600 0.66649
+}
+
+FUNCTION SigmaS1.2_fuel(x) DATA {
+300 2.7212e-02
+400 2.7220e-02
+500 2.7250e-02
+600 2.7301e-02
+}
+
+FUNCTION SigmaS1.1_cladding(x) DATA {
+300 1.6690e-01
+400 1.6694e-01
+500 1.6696e-01
+600 1.6692e-01
+}
+
+FUNCTION SigmaS1.2_cladding(x) DATA {
+300 3.1221e-04
+400 3.1724e-04
+500 3.2037e-04
+600 3.2164e-04
+}
+
+FUNCTION SigmaS1.1_coolant(x) DATA {
+300 8.9385e-01
+400 8.9381e-01
+500 8.9373e-01
+600 8.9358e-01
+}
+
+FUNCTION SigmaS1.2_coolant(x) DATA {
+300 5.9320e-02
+400 5.9304e-02
+500 5.9264e-02
+600 5.9256e-02
+}
+
+FUNCTION SigmaS2.1_fuel(x) DATA {
+300 1.9643e-04
+400 2.3911e-04
+500 2.8734e-04
+600 3.6540e-04
+}
+
+FUNCTION SigmaS2.2_fuel(x) DATA {
+300 1.9364e+00
+400 1.9316e+00
+500 1.9242e+00
+600 1.9149e+00
+}
+
+FUNCTION SigmaS2.1_cladding(x) DATA {
+300 6.4846e-05
+400 9.0043e-05
+500 9.1315e-05
+600 9.2659e-05
+}
+
+FUNCTION SigmaS2.2_cladding(x) DATA {
+300 8.6904e-02
+400 8.7256e-02
+500 8.7200e-02
+600 8.7206e-02
+}
+
+FUNCTION SigmaS2.1_coolant(x) DATA {
+300 2.3665e-04
+400 2.3645e-04
+500 2.3476e-04
+600 2.3739e-04
+}
+
+FUNCTION SigmaS2.2_coolant(x) DATA {
+300 3.0954e+00
+400 3.0923e+00
+500 3.0880e+00
+600 3.0819e+00
+}

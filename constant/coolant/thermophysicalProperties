@@ -10,7 +10,7 @@ FoamFile
     version     2.0;
     format      ascii;
     class       dictionary;
-    location    "constant/cooler";
+    location    "constant/coolant";
     object      thermophysicalProperties;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -33,7 +33,7 @@ thermoType
 // da energia
 dpdt            no; 
 
-// Cooler - water
+// Coolant - water
 // 
 // Water is not a perfectFluid. So, among the thermo types available,
 // the only one matching water is a polynomial transport, hPolynomial thermo 
