@@ -106,7 +106,7 @@ PRINT "\# cpu time [sec] = "  %.2f time_cpu_build "(build) "  %.2f time_cpu_solv
 
 mypow(x,y,z) := pow(x,y,z)*power
 
-MESH_FILL_VECTOR MESH boa CELLS VECTOR vec_Q FUNCTION pow 
+MESH_FILL_VECTOR MESH boa CELLS VECTOR vec_Q FUNCTION mypow 
 
 WRITE SHM_OBJECT potencias vec_Q
 
