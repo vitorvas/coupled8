@@ -4,8 +4,9 @@ cd ${0%/*} || exit 1    # run from this directory
 # Source tutorial run functions
 . $WM_PROJECT_DIR/bin/tools/RunFunctions
 
-#gmshToFoam boa3dtheler.msh
-#runApplication splitMeshRegions -cellZones -overwrite
+gmshToFoam boa3dtheler.msh
+cp constant/polyMesh/boundary.symmetry constant/polyMesh/boundary
+runApplication splitMeshRegions -cellZones -overwrite
 
 # remove fluid fields from solid regions (important for post-processing)
 for i in fuel cladding

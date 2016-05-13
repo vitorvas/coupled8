@@ -1,42 +1,54 @@
-rILONGA_DEBUG
-r
+MILONGA_DEBUG
 
 # Set transient time to infinite, so milonga will
 # wait for OpenFOAM until it ends.
-end_time = infinite
+#end_time = infinite
+static_steps = 1000
 
 # Make dt = 1. This does not affect milonga calculations
 # since it solves a steady-state problem.
 # Set for making time-steps named files.
-dt = 1
+# dt = 1
 
-MESH NAME boa FILE_PATH ../boa3dtheler.msh
+IF step_static=1
 
-MILONGA_PROBLEM FORMULATION diffusion SCHEME volumes DIMENSIONS 3 GROUPS 2
+   MESH NAME boa FILE_PATH ../boa3dtheler.msh
 
-PRINT "\# Number of cells: " %.0f cells
+   MILONGA_PROBLEM FORMULATION diffusion SCHEME volumes DIMENSIONS 3 GROUPS 2
 
-VECTOR vec_d SIZE cells
+   PRINT "\# Number of cells: " %.0f cells
 
-FUNCTION T(x,y,z) MESH boa CELLS VECTOR vec_T
-FUNCTION Q(x,y,z) MESH boa CELLS VECTOR vec_Q
+   VECTOR vec_d SIZE cells
 
-# O vetor de temperaturas é 273 na criação
-#vec_T(i) = 273
-#vec_Q(i) = 0
+   FUNCTION T(x,y,z) MESH boa CELLS VECTOR vec_T
+   FUNCTION Q(x,y,z) MESH boa CELLS VECTOR vec_Q
+
+   WRITE SHM_OBJECT potencias vec_Q
+   WRITE SHM_OBJECT temperaturas vec_T
+   WRITE SHM_OBJECT densidades vec_d
+
+   SEM calcMil POST
+
+ELSE
+
+# Não se pode dar valores para os vetores neste ponto
+# ou serão re-escritos nas outras iterações.
+# Na primeira vez, o OpenFOAM tem que passar os
+# perfis ou o OpenFOAM é quem deve escrever os arquivos
+# de memória compartilhada.
 
 # Inclusao das funcoes de interpolacao
 INCLUDE functions.was
 
 MATERIAL fuel {
 D1	     d_1_fuel(T(x,y,z))
-SigmaT1      SigmaA_1_fuel(T(x,y,z))
+SigmaA1      SigmaA_1_fuel(T(x,y,z))
 nuSigmaF1    SigmanuF_1_fuel(T(x,y,z))
 eSigmaF1     1
 SigmaS1.1    SigmaS1.1_fuel(T(x,y,z))
 SigmaS1.2    SigmaS1.2_fuel(T(x,y,z))
 D2           d_2_fuel(T(x,y,z))
-SigmaT2      SigmaA_2_fuel(T(x,y,z))
+SigmaA2      SigmaA_2_fuel(T(x,y,z))
 nuSigmaF2    SigmanuF_2_fuel(T(x,y,z))(T(x,y,z))
 eSigmaF2     1
 SigmaS2.1    SigmaS2.1_fuel(T(x,y,z))
@@ -45,22 +57,22 @@ SigmaS2.2    SigmaS1.2_fuel(T(x,y,z))
 
 MATERIAL cladding {
 D1	     d_1_cladding(T(x,y,z))
-SigmaT1      SigmaA_1_cladding(T(x,y,z))
+SigmaA1      SigmaA_1_cladding(T(x,y,z))
 SigmaS1.1    SigmaS1.1_cladding(T(x,y,z))
 SigmaS1.2    SigmaS1.2_cladding(T(x,y,z))
 D2           d_2_cladding(T(x,y,z))
-SigmaT2      SigmaA_2_cladding(T(x,y,z))
+SigmaA2      SigmaA_2_cladding(T(x,y,z))
 SigmaS2.1    SigmaS2.1_cladding(T(x,y,z))
 SigmaS2.2    SigmaS1.2_cladding(T(x,y,z))
 }
 
 MATERIAL coolant {
 D1	     d_1_coolant(T(x,y,z))
-SigmaT1      SigmaA_1_coolant(T(x,y,z))
+SigmaA1      SigmaA_1_coolant(T(x,y,z))
 SigmaS1.1    SigmaS1.1_coolant(T(x,y,z))
 SigmaS1.2    SigmaS1.2_coolant(T(x,y,z))
 D2           d_2_coolant(T(x,y,z))
-SigmaT2      SigmaA_2_coolant(T(x,y,z))
+SigmaA2      SigmaA_2_coolant(T(x,y,z))
 SigmaS2.1    SigmaS2.1_coolant(T(x,y,z))
 SigmaS2.2    SigmaS1.2_coolant(T(x,y,z))
 }
@@ -70,42 +82,41 @@ PHYSICAL_ENTITY NAME extremos BC vacuum
 PHYSICAL_ENTITY NAME inlet BC vacuum
 PHYSICAL_ENTITY NAME outlet BC vacuum
 
-WRITE SHM_OBJECT potencias vec_Q
-WRITE SHM_OBJECT temperaturas vec_T
-WRITE SHM_OBJECT densidades vec_d
 
-#static_steps = infinite
+SEM calcOf WAIT
 
+READ SHM_OBJECT temperaturas vec_T
 #PRINT_VECTOR vec_T
-#PRINT_FUNCTION T
 
-SEM semsent POST
+PRINT TEXT "\# temperatures read from OpenFOAM."
+power = 1000
 
-power = 800
+# PRINT TEXT "These two should be equal: " SigmaT1(0,0,0) SigmaA_1_fuel(T(0,0,0))
+# PRINT TEXT "This cannot be negative: " SigmaT1(0,0,0)-SigmaS1.1(0,0,0)-SigmaS1.2(0,0,0)
 
-PRINT "building..."
+PRINT TEXT "\# building..." NONEWLINE
 MILONGA_STEP JUST_BUILD
+PRINT TEXT " done."
 
-PRINT "solving..."
+PRINT "\# solving..." NONEWLINE
 MILONGA_STEP JUST_SOLVE
+PRINT TEXT " done."
 
-#mypow(x,y,z) := phi1(x,y,z)*100
+PRINT "\# cpu time [sec] = "  %.2f time_cpu_build "(build) "  %.2f time_cpu_solve "(solve)"  SEP " "
+
 mypow(x,y,z) := pow(x,y,z)*power
 
-#PRINT_FUNCTION mypow
-
-MESH_FILL_VECTOR MESH boa CELLS VECTOR vec_Q FUNCTION mypow
-
-PRINT_VECTOR vec_Q
+MESH_FILL_VECTOR MESH boa CELLS VECTOR vec_Q FUNCTION pow 
 
 WRITE SHM_OBJECT potencias vec_Q
 
-SEM semreceived WAIT
+SEM calcMil POST
 
-READ SHM_OBJECT densidades vec_d
-READ SHM_OBJECT temperaturas vec_T
+MESH_POST FILE_PATH coupled8.vtk pow phi1 mypow
 
-MESH_POST FILE_PATH coupled8_vacuum.vtk pow phi1 #mypow
+PRINT %g step_static
+
+ENDIF
 
 
 
