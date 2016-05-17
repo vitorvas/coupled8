@@ -28,7 +28,8 @@ IF step_static=1
    WRITE SHM_OBJECT densidades vec_d
 
    SEM calcMil POST
-
+   SEM calcMil WAIT
+   
 ELSE
 
 # Não se pode dar valores para os vetores neste ponto
@@ -36,6 +37,14 @@ ELSE
 # Na primeira vez, o OpenFOAM tem que passar os
 # perfis ou o OpenFOAM é quem deve escrever os arquivos
 # de memória compartilhada.
+
+
+SEM calcOf WAIT
+
+READ SHM_OBJECT temperaturas vec_T
+#PRINT_VECTOR vec_T
+
+PRINT TEXT "\# temperatures read from OpenFOAM."
 
 # Inclusao das funcoes de interpolacao
 INCLUDE functions.was
@@ -82,13 +91,6 @@ PHYSICAL_ENTITY NAME extremos BC vacuum
 PHYSICAL_ENTITY NAME inlet BC vacuum
 PHYSICAL_ENTITY NAME outlet BC vacuum
 
-
-SEM calcOf WAIT
-
-READ SHM_OBJECT temperaturas vec_T
-#PRINT_VECTOR vec_T
-
-PRINT TEXT "\# temperatures read from OpenFOAM."
 power = 1000
 
 # PRINT TEXT "These two should be equal: " SigmaT1(0,0,0) SigmaA_1_fuel(T(0,0,0))

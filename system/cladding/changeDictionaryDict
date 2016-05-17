@@ -64,8 +64,8 @@ dictionaryReplacement
                 Tnbr            T;
                 kappa           solidThermo;
                 kappaName       none;
-		thicknessLayers (0.1);
-		kappaLayers     (10);
+		thicknessLayers (0.01);
+		kappaLayers     (1);
                 value           uniform 350;
             }
         }
