@@ -28,7 +28,7 @@ dictionaryReplacement
 
     U
     {
-        internalField   uniform (0 0 -0.20);
+        internalField   uniform (0 0 -1.00);
 
         boundaryField
         {
@@ -48,7 +48,7 @@ dictionaryReplacement
 	    inlet
 	    {
 	      type  fixedValue;
-	      value uniform (0 0 -0.20);
+	      value uniform (0 0 -1.00);
 	    }
 
 	    // Testing this BC. 
@@ -83,7 +83,7 @@ dictionaryReplacement
 	    //	  type          zeroGradient;
             }
 
-            "cooler_to_.*"
+            "coolant_to_.*"
             {
                 type            compressible::turbulentTemperatureCoupledBaffleMixed;
                 Tnbr            T; 

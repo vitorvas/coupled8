@@ -39,7 +39,7 @@ boundaryField
     {
         type            calculated;
     }
-    //cooler_to_cladding
+    //coolant_to_cladding
     cc
     {
         type            compressible::alphatWallFunction;

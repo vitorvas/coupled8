@@ -49,7 +49,7 @@ dictionaryReplacement
 		type            symmetry;
 	    }
 	    
-	    cladding_to_cooler
+	    cladding_to_coolant
             {
                 type            compressible::turbulentTemperatureCoupledBaffleMixed;
                 Tnbr            T;

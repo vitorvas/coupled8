@@ -10,7 +10,7 @@ rm -rf constant/cellToRegion constant/polyMesh/sets
 rm -f 0/cellToRegion
 rm -rf constant/fuel/polyMesh
 rm -rf constant/cladding/polyMesh
-rm -rf constant/cooler/polyMesh
+rm -rf constant/coolant/polyMesh
 rm -rf postProcessing
 
 # ----------------------------------------------------------------- end-of-file

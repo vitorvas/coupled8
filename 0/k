@@ -42,7 +42,7 @@ boundaryField
         type            calculated;
         value           uniform 0;
     }
-    cooler_to_cladding
+    coolant_to_cladding
     {
         type            calculated;
         value           uniform 0;
