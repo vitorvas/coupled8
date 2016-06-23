@@ -91,7 +91,10 @@ PHYSICAL_ENTITY NAME extremos BC vacuum
 PHYSICAL_ENTITY NAME inlet BC vacuum
 PHYSICAL_ENTITY NAME outlet BC vacuum
 
-power = 1000
+# O mesmo do OpenFOAM
+# 443.56 é Q/m^3
+
+power = 443.56 
 
 # PRINT TEXT "These two should be equal: " SigmaT1(0,0,0) SigmaA_1_fuel(T(0,0,0))
 # PRINT TEXT "This cannot be negative: " SigmaT1(0,0,0)-SigmaS1.1(0,0,0)-SigmaS1.2(0,0,0)
@@ -114,7 +117,7 @@ WRITE SHM_OBJECT potencias vec_Q
 
 SEM calcMil POST
 
-MESH_POST FILE_PATH coupled8.vtk pow phi1 mypow
+#MESH_POST FILE_PATH coupled8.vtk pow phi1 mypow
 
 PRINT %g step_static
 

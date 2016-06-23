@@ -34,7 +34,8 @@ dictionaryReplacement
 
     T
     {
-        internalField   uniform 400;
+        internalField   uniform 300;
+	// Temperatura inicial igual para todos
 
         boundaryField
         {
@@ -57,14 +58,19 @@ dictionaryReplacement
                 kappaName       none;
 		thicknessLayers (0.01);
 		kappaLayers     (1);
-                value           uniform 400;
+                value           uniform 300;
             }
         }
     }
 
     Q
     {
-        internalField   uniform 80; //4000; //38888888.9;
+        internalField   uniform 443.56; //4000; //38888888.9;
+	// 250kW * combustível B1 (mais quente) 1.55 do total *1/4 do combustível
+	// = 0.96875 kW -> 968.75 W
+	// volume do fuel -> 5.5 [cm] * 5.5 [cm] * 72.2 [cm]
+	// = 0.00218405 [m^3]
+	// Q = 443.56
 
         boundaryField
         {

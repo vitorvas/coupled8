@@ -1,7 +1,7 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  2.2.2                                 |
+|  \\    /   O peration     | Version:  2.4.0                                 |
 |   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
@@ -10,6 +10,7 @@ FoamFile
     version     2.0;
     format      ascii;
     class       dictionary;
+    location    "constant/cladding";
     object      thermophysicalProperties;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -18,64 +19,46 @@ thermoType
 {
     type            heSolidThermo;
     mixture         pureMixture;
-    transport       polynomial; //exponential; //constIso;
-    thermo          hPolynomial; //hExponential; //hConst;
+    transport       polynomial;
+    thermo          hPolynomial; 
     equationOfState rhoConst;
     specie          specie;
     energy          sensibleEnthalpy;
 }
 
-// Cladding - Zircaloy-2
-// Modelled as a solid
 
 mixture
 {
     specie
     {
-      // Molas mass of Zirconium (91.224 g/mol) used
         nMoles      1;
-        molWeight   91.224;
+        molWeight   26.982;
     }
 
     transport
     {
-      // *** polynomial
-      //
-      // Thermal condutivity polynomial coefficients in [W/m/K]
-      // IAEA-TECDOC-1496
-      // 6.2.1.4 - Eq (1) (pg 249)
-      //
-      // kappa(t) = 12.767 - 5.4348e-4*(t) + 8.9818e-6*(t)**2
-      kappaCoeffs<8> (12.767 -5.4348e-04 8.9818e-06 0 0 0 0 0);
+      Tlow   293;
+      Thigh    873;
+      Tcommon    575;
+	//  kappa(t) = 223.7 - 4.7560e-2*(t) + 1.0215e-5*(t)**2 - 18887e-08*(t)**3   pg 17 Triga c3
+      kappaCoeffs<8> (223.7 -4.7560e-02 1.0215e-05 -1.8887e-08 0 0 0 0);
 
     }
 
     thermodynamics
     {
-        // *** hPolynomial
-        // OpenFOAM uses [J/kg/K]
-        // CpZr(T) = 255.66 + 0.1024*(T)
-        //
-        // This curve is valid for (273 < T < 1100) Kelvin.
-        // Reference: IAEA-TECDOC-1496
-        //
-        // Obs: Values from Monica in this range (300 < T < 1096) where 
-        // ploted and fitted to: f(x) = 257.94 + 0.1237*(T).
-        // Since difference is not significative, option for the TECDOC curve
-
-        CpCoeffs<8> (255.66 0.1024 0 0 0 0 0 0);
-	Hf      0;
-	Sf      0;
+      // CpAl1100(T) = 0.892 + 4.4361e-04*(T) + 3.6326e-08**(t)   pg18 Triga c3
+      Tlow   293;
+      Thigh    873;
+      Tcommon    575;
+      CpCoeffs<8> (0.892 4.4361e-04 3.6326e-08 0 0 0 0 0);
+      Hf      0;
+      Sf      0;
     }
 
     equationOfState
     {
-      // In this version, OpenFOAM does not offer the possibility
-      // of functions for density without source code changes.
-      // For this reason, the chosen density is obtained from
-      // the function rho(t) = 6595.2 - 0.1477*(t) which represents
-      // the alpha-phase at 800 degrees (K).
-        rho     6714;
+        rho     2.705e-03;
     }
 }
 

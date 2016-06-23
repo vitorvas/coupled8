@@ -28,7 +28,7 @@ dictionaryReplacement
 
     U
     {
-        internalField   uniform (0 0 -1.00);
+        internalField   uniform (0 0 -0.26);
 
         boundaryField
         {
@@ -48,7 +48,7 @@ dictionaryReplacement
 	    inlet
 	    {
 	      type  fixedValue;
-	      value uniform (0 0 -1.00);
+	      value uniform (0 0 -0.26);
 	    }
 
 	    // Testing this BC. 
