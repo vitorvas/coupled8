@@ -10,6 +10,8 @@ static_steps = 1000
 # Set for making time-steps named files.
 # dt = 1
 
+#PRINT %g step_static
+
 IF step_static=1
 
    MESH NAME boa FILE_PATH ../boa3dtheler.msh
@@ -92,9 +94,9 @@ PHYSICAL_ENTITY NAME inlet BC vacuum
 PHYSICAL_ENTITY NAME outlet BC vacuum
 
 # O mesmo do OpenFOAM
-# 443.56 é Q/m^3
+# 443.56 é Q/m^3 (foi multiplicado ~2 -> 900)
 
-power = 443.56 
+power = 900.0
 
 # PRINT TEXT "These two should be equal: " SigmaT1(0,0,0) SigmaA_1_fuel(T(0,0,0))
 # PRINT TEXT "This cannot be negative: " SigmaT1(0,0,0)-SigmaS1.1(0,0,0)-SigmaS1.2(0,0,0)
@@ -111,15 +113,13 @@ PRINT "\# cpu time [sec] = "  %.2f time_cpu_build "(build) "  %.2f time_cpu_solv
 
 mypow(x,y,z) := pow(x,y,z)*power
 
-MESH_FILL_VECTOR MESH boa CELLS VECTOR vec_Q FUNCTION mypow 
+MESH_FILL_VECTOR MESH boa CELLS VECTOR vec_Q FUNCTION mypow #pow
 
 WRITE SHM_OBJECT potencias vec_Q
 
 SEM calcMil POST
 
-#MESH_POST FILE_PATH coupled8.vtk pow phi1 mypow
-
-PRINT %g step_static
+MESH_POST FILE_PATH coupled8.vtk pow phi1 mypow
 
 ENDIF
 
