@@ -56,7 +56,7 @@ dictionaryReplacement
                 Tnbr            T;
                 kappa           solidThermo;
                 kappaName       none;
-		thicknessLayers (0.01);
+		thicknessLayers (0.001);
 		kappaLayers     (1);
                 value           uniform 300;
             }
@@ -65,7 +65,7 @@ dictionaryReplacement
 
     Q
     {
-        internalField   uniform 900.0; //443.56; //4000; //38888888.9;
+        internalField   uniform 443.56; //900.0; //443.56; //4000; //38888888.9;
 	// 250kW * combustível B1 (mais quente) 1.55 do total *1/4 do combustível
 	// = 0.96875 kW -> 968.75 W
 	// volume do fuel -> 5.5 [cm] * 5.5 [cm] * 72.2 [cm]
