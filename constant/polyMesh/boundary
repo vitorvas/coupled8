@@ -17,33 +17,33 @@ FoamFile
 
 4
 (
-    outlet
-    {
-        type            patch;
-        physicalType    patch;
-        nFaces          39;
-        startFace       541;
-    }
     extremos
     {
         type            patch;
         physicalType    patch;
-        nFaces          148;
-        startFace       580;
+        nFaces          2372;
+        startFace       498362;
     }
-    parede
+    outlet
     {
         type            patch;
         physicalType    patch;
-        nFaces          48;
-        startFace       728;
+        nFaces          1232;
+        startFace       500734;
+    }
+    parede
+    {
+        type            symmetry;
+        physicalType    symmetry;
+        nFaces          14000;
+        startFace       501966;
     }
     inlet
     {
         type            patch;
         physicalType    patch;
-        nFaces          39;
-        startFace       776;
+        nFaces          1232;
+        startFace       515966;
     }
 )
 

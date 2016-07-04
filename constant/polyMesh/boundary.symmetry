@@ -21,29 +21,29 @@ FoamFile
     {
         type            patch;
         physicalType    patch;
-        nFaces          614;
-        startFace       1163;
+        nFaces          2372;
+        startFace       498362;
     }
     outlet
     {
         type            patch;
         physicalType    patch;
-        nFaces          326;
-        startFace       1777;
-    }
-    inlet
-    {
-        type            patch;
-        physicalType    patch;
-        nFaces          326;
-        startFace       2103;
+        nFaces          1232;
+        startFace       500734;
     }
     parede
     {
         type            symmetry;
         physicalType    symmetry;
-        nFaces          100;
-        startFace       2429;
+        nFaces          14000;
+        startFace       501966;
+    }
+    inlet
+    {
+        type            patch;
+        physicalType    patch;
+        nFaces          1232;
+        startFace       515966;
     }
 )
 

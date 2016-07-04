@@ -1,5 +1,5 @@
 cl1 = 0.10;
-cl2 = 5.0;
+cl2 = 10.0;
 cl3 = 0.50;
 Point(1) = {-7.014805771, 4.05, 0, cl3};
 Point(2) = {0, 8.1, 0, cl3};
@@ -85,7 +85,7 @@ Plane Surface(84) = {83};
 
 Recombine Surface {72, 72, 76};
 
-zdir[] = Extrude{0, 0, 1.0} { Surface{72, 74, 76, 78, 80, 82, 84}; Layers{1}; Recombine;};
+zdir[] = Extrude{0, 0, 35.0} { Surface{72, 74, 76, 78, 80, 82, 84}; Layers{35}; Recombine;};
 
 Physical Volume("mat3") = {7};
 Physical Volume("mat2") = {4, 6, 5};
