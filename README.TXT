@@ -1,3 +1,12 @@
+03/07/2016
+
+Nova mudança de malha para um subcanal. Malha ainda em desenvolvimento.
+
+- Deve ser melhor refinada
+- NAO FUNCIONA no milonga. Aguardando resposta da lista do gmsh.
+
+Iniciado um debug no milonga para testes.
+
 09/05/2016
 
 Caso duplicado de coupled 8.

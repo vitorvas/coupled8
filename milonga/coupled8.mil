@@ -14,7 +14,7 @@ static_steps = 1000
 
 IF step_static=1
 
-   MESH NAME boa FILE_PATH ../boa3dtheler.msh
+   MESH NAME boa FILE_PATH ../malha/subcanal.msh
 
    MILONGA_PROBLEM FORMULATION diffusion SCHEME volumes DIMENSIONS 3 GROUPS 2
 

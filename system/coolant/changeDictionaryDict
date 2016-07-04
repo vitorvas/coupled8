@@ -28,7 +28,7 @@ dictionaryReplacement
 
     U
     {
-        internalField   uniform (0 0 -0.26);
+        internalField   uniform (0 0 -0.001); //-0.26);
 
         boundaryField
         {
