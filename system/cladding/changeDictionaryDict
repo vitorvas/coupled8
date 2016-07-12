@@ -18,12 +18,13 @@ dictionaryReplacement
 {
     boundary
     {
-        parede
-        {
-	    type            symmetry;
+	// Na malha celula.msh, o cladding não tem parede mais
+//        parede
+//        {
+//	    type            symmetry;
             // type            fixedValue;
             // value           uniform 0;
-        }
+//        }
 	
 	extremos
         {
@@ -44,10 +45,10 @@ dictionaryReplacement
                 type            zeroGradient;
 	    }
             
-	    parede
-	    {
-		type            symmetry;
-	    }
+//	    parede
+//	    {
+//		type            symmetry;
+//	    }
 	    
 	    cladding_to_coolant
             {

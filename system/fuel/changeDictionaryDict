@@ -18,12 +18,14 @@ dictionaryReplacement
 {
     boundary
     {
-        parede
-        {
-	    type            symmetry;
+	// Na malha celula.msh o fuel não tem
+	// mais paredes. Comentado.
+//        parede
+//        {
+//	    type            symmetry;
             // type            fixedValue;
             // value           uniform 0;
-        }
+//        }
 
        extremos
        {
@@ -44,10 +46,10 @@ dictionaryReplacement
 	        type            zeroGradient; 
             }
 
-	    parede
-	    {
-		type            symmetry;
-	    }
+//	    parede
+//	    {
+//		type            symmetry;
+//	    }
 
 	    //            "fuel_to_.*"
 	    fuel_to_cladding
@@ -56,8 +58,8 @@ dictionaryReplacement
                 Tnbr            T;
                 kappa           solidThermo;
                 kappaName       none;
-		//thicknessLayers (0.001);
-		//kappaLayers     (1);
+		thicknessLayers (0.001);
+		kappaLayers     (1);
                 value           uniform 300;
             }
         }
@@ -65,12 +67,12 @@ dictionaryReplacement
 
     Q
     {
-        internalField   uniform 1340.0; //900.0; //443.56; //4000; //38888888.9;
+        internalField   uniform 4333553.0; //1120903.95; //900.0; //443.56; //4000; //38888888.9;
 	// 250kW * combustível B1 (mais quente) 1.55 do total *1/4 do combustível
 	// = 0.96875 kW -> 968.75 W
-	// volume do fuel -> 5.5 [cm] * 5.5 [cm] * 72.2 [cm]
-	// = 0.00218405 [m^3]
-	// Q = 443.56
+	// volume do fuel -> r = 
+	// = 0.000354 [m^3]
+	// Q = 
 
         boundaryField
         {
@@ -79,10 +81,10 @@ dictionaryReplacement
 	        type            calculated; 
             }
 
-	    parede
-	    {
-		type            symmetry;
-	    }
+//	    parede
+//	    {
+//		type            symmetry;
+//	    }
 
         }
     }

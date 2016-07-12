@@ -43,30 +43,37 @@ solvers
         solver           PBiCG;
         preconditioner   DILU;
         tolerance        1e-03; //1e-6;
-        relTol           0.1;
+        relTol           0.01; //0.1;
     }
 }
 
 SIMPLE
 {
     momentumPredictor on;
-    nNonOrthogonalCorrectors 0; 
+    nNonOrthogonalCorrectors 1; //0; 
     pRefCell        0;
     pRefValue       1750000;
     rhoMin          rhoMin [1 -3 0 0 0] 900; //300; 
-    rhoMax          rhoMax [1 -3 0 0 0] 1100; ////1e9; //1200; 
+    rhoMax          rhoMax [1 -3 0 0 0] 1100; ////1e9; //1200;
+
+    residualControl
+    {
+	p_rgh         5e-2;
+	U             5e-2;
+	"(h|k|epsilon)" 5e-2;
+    }
 }
 
 relaxationFactors
 {
     fields
     {
-        rho             1;
-        p_rgh           0.7; //0.8;
+//        rho             1;
+        p_rgh           0.7; //0.3; //0.8;
     }
     equations
     {
-        U               0.3;
+        U               0.7; //0.3;
         h               0.8;
         nuTilda         0.8;
         k               0.8;

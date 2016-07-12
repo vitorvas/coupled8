@@ -51,7 +51,7 @@ mixture
       Tlow    293;
       Thigh    823;
       Tcommon    575;
-      CpCoeffs<8> (0.294 6.196e-04 -2.748e-09 1.354e-11 0 0 0 0);  //Pg 11 Tigac3
+      CpCoeffs<8> (294 6.196e-01 -2.748e-06 1.354e-8 0 0 0 0);  //Pg 11 Tigac3
       Sf 0;  //Standard entropy [J/kg K]
       Hf 0;  //Heat of formation [J/Kg]
     }
@@ -60,7 +60,7 @@ mixture
     {
       // U_ZrH density: 6.28g/cm3
       // OpenFOAM expects kg/m3
-      rho     6.28e-3;
+      rho     6.28e3;
     }
 }
 

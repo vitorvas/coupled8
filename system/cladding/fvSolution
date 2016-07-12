@@ -28,6 +28,10 @@ solvers
 SIMPLE
 {
     nNonOrthogonalCorrectors 0;
+    residualControl
+    {
+        h               5e-2;
+    }
 }
 
 relaxationFactors
